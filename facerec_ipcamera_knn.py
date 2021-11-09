@@ -15,7 +15,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'JPG'}
 
 def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree', verbose=False):
     """
-    Trains a k-nearest neighbors classifier for face recognition.
      Structure:
         <train_dir>/
         ├── <person1>/
@@ -26,12 +25,6 @@ def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree
         │   ├── <somename1>.jpeg
         │   └── <somename2>.jpeg
         └── ...
-
-    :param model_save_path: (optional) path to save model on disk
-    :param n_neighbors: (optional) number of neighbors to weigh in classification. Chosen automatically if not specified
-    :param knn_algo: (optional) underlying data structure to support knn.default is ball_tree
-    :param verbose: verbosity of training
-    :return: returns knn classifier that was trained on the given data.
     """
     X = []
     y = []
@@ -74,17 +67,7 @@ def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree
 
 
 def predict(X_frame, knn_clf=None, model_path=None, distance_threshold=0.5):
-    """
-    Recognizes faces in given image using a trained KNN classifier
 
-    :param X_frame: frame to do the prediction on.
-    :param knn_clf: (optional) a knn classifier object. if not specified, model_save_path must be specified.
-    :param model_path: (optional) path to a pickled knn classifier. if not specified, model_save_path must be knn_clf.
-    :param distance_threshold: (optional) distance threshold for face classification. the larger it is, the more chance
-           of mis-classifying an unknown person as a known one.
-    :return: a list of names and face locations for the recognized faces in the image: [(name, bounding box), ...].
-        For faces of unrecognized persons, the name 'unknown' will be returned.
-    """
     if knn_clf is None and model_path is None:
         raise Exception("Must supply knn classifier either thourgh knn_clf or model_path")
 
